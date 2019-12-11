@@ -1,0 +1,102 @@
+<div class="container">
+    <form [formGroup]="formulario" (ngSubmit)="salvar()" >
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h1>{{ editando ? 'Edição de' : 'Nova' }} Pessoa</h1>
+
+            </div>
+
+            <div class="ui-g-12 ui-fluid">
+
+                <label>Nome</label>
+                <input pInputText type="text" formControlName="nome" name="nome">
+                 <app-message [control]="formulario.get('nome')" error="required"
+                    text="Informe um nome">
+                </app-message>  
+                 <app-message [control]="formulario.get('nome')" error="minlength"
+                    text="Mínimo de {{formulario.get('nome').errors?.minlength?.requiredLength}} caracteres">
+                </app-message> 
+
+            </div>
+
+            <div class="ui-g-12 ui-md-9 ui-fluid" formGroupName="endereco">
+
+                <label>Logradouro</label>
+                <input pInputText type="text" formControlName="logradouro" name="logradouro" >
+                 <app-message [control]="formulario.get('endereco.logradouro')" error="required"
+                    text="Informe o logradouro">
+                </app-message> 
+            </div>
+
+            <div class="ui-g-12 ui-md-3 ui-fluid" formGroupName="endereco">
+
+                <label>Número</label>
+                <input pInputText type="text" formControlName="numero"  name="numero" >
+                 <app-message [control]="formulario.get('endereco.numero')" error="required"
+                    text="Informe o número">
+                </app-message>  
+            </div>
+
+            <div class="ui-g-12 ui-md-4 ui-fluid" formGroupName="endereco">
+
+                <label>Complemento</label>
+                <input pInputText type="text" formControlName="complemento" name="complemento">
+            </div>
+
+            <div class="ui-g-12 ui-md-4 ui-fluid" formGroupName="endereco">
+
+                <label>Bairro</label>
+                <input pInputText type="text" formControlName="bairro" name="bairro" >
+                 <app-message [control]="formulario.get('endereco.bairro')" error="required"
+                    text="Informe o bairro">
+                 </app-message>  
+            </div> 
+
+            <div class="ui-g-12 ui-md-4 ui-fluid" formGroupName="endereco">
+
+                <label>Cep</label>
+                <p-inputMask mask="99999-999" formControlName="cep" name="cep" ></p-inputMask>
+                 <app-message [control]="formulario.get('endereco.cep')" error="required"
+                    text="Informe o CEP">
+                </app-message>  
+            </div>
+
+            <div class="ui-g-12 ui-md-6 ui-fluid" formGroupName="endereco">
+
+                <label>Cidade</label>
+                <input pInputText type="text" formControlName="cidade" name="cidade" >
+                 <app-message [control]="formulario.get('endereco.cidade')" error="required"
+                    text="Informe a cidade">
+                </app-message>   
+            </div> 
+
+            <div class="ui-g-12 ui-md-6 ui-fluid" formGroupName="endereco">
+
+                <label>Estado</label>
+                <input pInputText type="text" formControlName="estado" name="estado" >
+                 <app-message [control]="formulario.get('endereco.estado')" error="required"
+                    text="Informe o Estado">
+                </app-message>   
+            </div>
+
+            <div class="ui-g-12">
+                <p-panel header="Contatos">
+                   <app-pessoa-cadastro-contato [formulario]="formulario"
+                      [contatos]="pessoa.contatos"></app-pessoa-cadastro-contato>
+
+                </p-panel>
+            </div>
+
+            <div class="ui-g-12">
+
+                <button pButton [disabled]="!formulario.valid" type="submit" label="Salvar"></button>
+                <button pButton type="button" label="Novo" (click)="novo()" class="ui-button-info" style="margin-left: 5px;"></button>
+                <a routerLink="/pessoas" type="button" style="margin-left: 5px;">Voltar para pesquisa</a>
+            </div>
+         
+        </div>
+    
+    </form>
+
+</div>
+

@@ -1,0 +1,82 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <button pButton type="button" label="Novo" icon="pi pi-plus" 
+            class="ui-button-secondary" (click)="prepararNovoContato()">
+        </button>
+    </div>
+
+    <div class="ui-g-12">
+        <p-table [value]="formulario.value.contatos" [responsive]="true"> <!-- Substituindo formulario.value.contatos por contatos na propiedade [value] -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="col-acoes-contato-nome">Nome</th>
+                    <th class="col-acoes-contato-email">E-Mail</th>
+                    <th class="col-acoes-contato">Telefone</th>
+                    <th class="col-acoes-header"></th>
+                </tr>
+            </ng-template>
+                                            <!-- rowIndex Vai pegar o contato pelo index para ter acesso a ele e fazer a alteração do contato -->
+            <ng-template pTemplate="body" let-contato let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{ contato.nome }}</td>
+                    <td>{{ contato.email }}</td>
+                    <td>{{ contato.telefone }}</td>
+                    <td class="col-acoes">
+                        <button pButton type="button" icon="pi pi-pencil" (click)="prepararEdicaoContato(contato, rowIndex)" 
+                            pTooltip="Editar" tooltipPosition="top"></button>
+                        <button pButton type="button" icon="pi pi-trash" (click)="removerContato(rowIndex)"           
+                            pTooltip="Excluir" tooltipPosition="top" style="margin-left: 5px;"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">
+                        Nenhum contato cadastrado
+                    </td>
+                </tr>
+            </ng-template>
+        
+        </p-table>
+    </div>
+</div>
+
+<p-dialog header="Novo Contato" [(visible)]="exibindoFormularioContato"
+    modal="modal" *ngIf="contato"> <!-- Com modal vai exibir com enfase a tela de dialog -->
+
+    <form #formContato="ngForm" (ngSubmit)="confirmarContato(formContato)">
+        <div class="ui-g-12 ui-fluid">
+            <label>Nome</label>
+
+            <input pInputText type="text" name="nome" [(ngModel)]="contato.nome" 
+                #contatoNome="ngModel" required>
+            
+            <app-message [control]="contatoNome" error="required" text="Informe o nome"></app-message>
+
+        </div>
+ 
+        <div class="ui-g-12 ui-fluid">
+            <label>E-Mail</label>
+
+            <input pInputText type="email" name="email" [(ngModel)]="contato.email" 
+                #contatoEmail="ngModel" required email>
+            
+            <app-message [control]="contatoEmail" error="required" text="Informe o e-mail"></app-message>
+            <app-message [control]="contatoEmail" error="email" text="Informe um e-mail valido!"></app-message>
+
+        </div>
+
+        <div class="ui-g-12 ui-fluid">
+                <label>Telefone</label>
+                                                      <!-- O interrogação(?) na mascara significa que o proximo digito é opcional ou seja não é obrigatório-->
+                <p-inputMask name="telefone" [(ngModel)]="contato.telefone" mask="(99)99999-999?9"></p-inputMask>
+        </div>
+
+        <div class="ui-g-12">
+            <button pButton type="submit" label="Confirmar" [disabled]="!formContato.valid"></button>
+        </div> 
+
+    </form>
+
+</p-dialog>

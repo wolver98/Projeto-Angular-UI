@@ -1,0 +1,99 @@
+<div class="container">        <!-- formulario vindo da propiedade formulario de CadastroLanca... -->
+    <form (ngSubmit)="salvar()" [formGroup]="formulario" >
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <h1>{{ editando ? 'Edição de' : 'Novo'}} Lançamento</h1>
+            </div>
+
+            <div class="ui-g-12">                               <!-- REmovendo #tipo [(ngModel)]="lancamento.tipo" para formControlNane="tipo" para o FormGroup formulario -->
+                <p-selectButton [options]="tipos" formControlName="tipo" name="tipo" ></p-selectButton>
+            </div>
+                     <!-- o ui-md-3 vai diminuir para 3 colunas para se para outros dispositivos como celular ou tablet -->
+            <div class="ui-g-6 ui-md-3 ui-fluid">
+
+                <label>Vencimento</label>
+                <p-calendar dateFormat="dd/mm/yy" [inline]="false" [readonlyInput]="true" 
+                    [showIcon]=false formControlName="dataVencimento" name="vencimento" required>
+                </p-calendar>
+            </div>
+            <app-message [control]="formulario.get('dataVencimento')" error="required"
+                text="Informe uma data de vencimento!">
+            </app-message> 
+            
+            <div class="ui-g-6 ui-md-3 ui-fluid">
+
+                <label>{{ formulario.get('tipo').value === 'RECEITA' ? 'Recebimenmto' : 'Pagamento'}}</label>
+                <p-calendar dateFormat="dd/mm/yy" name="dtPagamento" formControlName="dataPagamento" [readonlyInput]="true"></p-calendar>
+            </div>
+
+            <div class="ui-g-12 ui-md-9 ui-fluid">
+
+                <label>Descrição {{formulario.get('descricao').errors | json}}</label> <!-- {{descricao.errors | json}} para debugar e ver se esta tudo OK -->               
+                <input pInputText type="text" name="descricao" 
+                    formControlName="descricao" > <!-- Removendo as validações required e minlength="5" pois estao sendo validadas direto do CadastroLan... -->
+                
+                <app-message [control]="formulario.get('descricao')" error="obrigatoriedade"
+                    text="Informe uma descrição!">                             <!-- substituindo o required pela propriedade obrigatoriedade do metodo validarObriga.. de lancamentos.component -->
+                </app-message>     <!-- O interrogação depois de descricao.errors? avisa que se a validação de erros estiver nulo ou seja tudo validado, irá passar -->
+                <app-message [control]="formulario.get('descricao')" error="tamanhoMinimo"
+                    text="Mínimo de {{ formulario.get('descricao').errors?.tamanhoMinimo?.tamanho }} caracteres!"> <!-- substituindo o minlength pela propiedade tamanhoMinimo e requiredLength por tamanho representando o valor passado no campo-->
+                </app-message> 
+                <!-- Antes 
+                <div *ngIf="descricao.hasError('minlength') && descricao.hasError('dirty')" 
+                    class="ui-messages ui-messages-error">
+                    Mínimo de 5 caracteres!
+                </div>   -->
+            </div>
+  
+            <div class="ui-g-12 ui-md-3 ui-fluid">
+
+                <label>Valor</label>
+                <input pInputText type="text" formControlName="valor" placeholder="0,00" currencyMask name="valor" 
+                    [options]="{prefix: '', thousands: '.', decimal: ',', allowNegative: false }"  >
+            
+                <app-message [control]="formulario.get('valor')" error="required"
+                    text="Informe um valor">
+                </app-message> 
+            </div>
+
+            <div class="ui-g-12 ui-md-6 ui-fluid" formGroupName="categoria">
+
+                <label>Categoria {{formulario.get('categoria.codigo').value}}</label> <!-- codigo referente a propiedade codigo da categoria -->
+                <p-dropdown [options]="categorias" formControlName="codigo" 
+                    name="categoria" placeholder="Selecione" >
+                </p-dropdown>
+                 <app-message [control]="formulario.get('codigo')" error="required"
+                    text="Informe uma categoria">
+                </app-message> 
+                
+            </div>
+
+            <div class="ui-g-12 ui-md-6 ui-fluid" formGroupName="pessoa">
+
+                <label>Pessoa {{formulario.get('pessoa.codigo').value}}</label>
+                <p-dropdown [options]="pessoas" formControlName="codigo" name="pessoa" 
+                    [filter]="true" placeholder="Selecione" >
+                </p-dropdown>
+                 <app-message [control]="formulario.get('codigo')" error="required"
+                    text="Informe a pessoa">
+                </app-message> 
+            </div>
+
+            <div class="ui-g-12 ui-fluid">
+
+                <label>Observação</label>
+                <textarea pInputTextarea rows="3" formControlName="observacao" name="observacao" ></textarea>
+            </div>
+
+            <div class="ui-g-12">
+                <button pButton type="submit" [disabled]="!formulario.valid" label="Salvar"></button>
+                <button pButton type="button" routerLink="/lancamentos/novo" label="Novo" 
+                    (click)="novo()" style="margin-left: 5px;" class="ui-button-info"></button>
+                <a routerLink="/lancamentos" style="margin-left: 5px;">Voltar para pesquisa</a>
+            </div>
+
+        </div>
+
+    </form>
+</div>

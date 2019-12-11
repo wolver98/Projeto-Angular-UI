@@ -1,0 +1,30 @@
+<div class="container" style="max-width: 400px; margin: auto;">
+   
+    <!-- {{ auth.jwtPayLoad | json }} Usado para testes -->
+    <form #loginForm="ngForm" >
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <h1> Login </h1>
+            </div>
+
+            <div class="ui-g-12">
+
+                <input type="email" pInputText placeholder="E-mail" ngModel #usuario 
+                    name="usuario" required>
+            </div>
+           <!-- <app-message [control]="email" error="required" 
+                text="Informe um Email">
+            </app-message> -->
+
+            <div class="ui-g-12">
+
+                <input type="password" pInputText placeholder="Senha" 
+                    ngModel #senha name="senha" required>
+            </div>
+
+            <div class="ui-g-12">
+                <button type="submit" pButton label="Login" (click)="login(usuario.value, senha.value); senha.value = '';" [disabled]="!loginForm.valid"></button>
+            </div>
+        </div>
+    </form>
+</div>

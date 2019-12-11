@@ -1,0 +1,21 @@
+<nav class="navbar">
+    <div class="container">
+        <div class="ui-g">
+            <div class="ui-g-12">                     <!-- Evento exibindoMenu criado aqui no HTML para ocultar ou exibir o menu do cabeçalho -->
+                <a href="javascript:;" class="navbar-toggle" (click)="exibindoMenu = !exibindoMenu"> <i class="pi pi-bars"></i> </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <ul class="navbar-menu" [hidden]="!exibindoMenu"> <!-- Vai deixar o menu escondido ao clicar no icone vai exibir -->
+        <li class="navbar-usuario">{{ auth.jwtPayLoad?.nome }}</li> <!-- O ? Vai evitar de ocorrer um erro porq a propriedade nome eh uma var. indefinida em jwtPayLoad Obs: Essa var nome foi implementada na api na classe CustonToken-->
+        <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/dashboard" >Dashboard</a> </li>
+        <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/lancamentos" >Lançamentos</a> </li>
+        <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_PESSOA')"> <a routerLink="/pessoas" >Pessoas</a> </li>
+        <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/relatorios/lancamentos" >Relatórios</a> </li>
+        <li class="navbar-menu-item"> <a href="javascript:;" (click)="logout()" >Logout</a> </li>
+    </ul>
+
+</nav>
