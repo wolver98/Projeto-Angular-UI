@@ -4,7 +4,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { PessoasService } from './../pessoas.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastyService } from 'ng2-toasty';
-import { Pessoa, Contato } from 'src/app/core/model';
+import { Pessoa } from 'src/app/core/model';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -15,6 +15,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PessoaCadastroComponent implements OnInit {
   
   pessoa = new Pessoa(); 
+  estados: any[];
+  cidades: any[];
+  estadoSelecionado: number;
   
   formulario: FormGroup;
   
@@ -30,20 +33,39 @@ export class PessoaCadastroComponent implements OnInit {
     this.title.setTitle('Nova Pessoa');
     const codigoPessoa = (this.route.snapshot.params['codigo'])
     
+    this.carregarEstados();
+
     if(codigoPessoa) {
       this.carregarPessoa(codigoPessoa);
     }
 
-    this.configurarFormulario();
-  
+    //this.configurarFormulario();
   }
   
   get editando() {
-    //return Boolean(this.pessoa.codigo);
-    return Boolean(this.formulario.get('codigo').value);
+    return Boolean(this.pessoa.codigo);
+   // reaticte form return Boolean(this.formulario.get('codigo').value);
   }
 
 
+  carregarEstados() {
+    this.pessoasService.listarEstados()
+      .then(listaEstados => {
+        this.estados = listaEstados.map(uf => ({ label: uf.nome, value: uf.codigo }) );
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
+
+  carregarCidades() {
+    this.pessoasService.pesquisarCidades(this.estadoSelecionado)
+      .then(listaCidades => {
+        this.cidades = listaCidades.map(c => ({ label: c.nome, value: c.codigo }) );
+      })
+      .catch(erro => this.errorHandler.handle(erro));
+  }
+  
+  /* Configuração para o reactive form(fromulario reativo)
+  // Vai retornar o dados para ser exibido no metodo carregarPessoa()
   criarFormGroupContato(): FormGroup {
     return this.formBuilder.group({
       codigo: [],
@@ -64,44 +86,51 @@ export class PessoaCadastroComponent implements OnInit {
         complemento: [],
         bairro: [null, Validators.required],
         cep: [null, Validators.required],
-        cidade: [null, Validators.required],
-        estado: [null, Validators.required]
+        cidade: 
+      
       }),
       contatos: this.formBuilder.array([]) // adicionando o contatos para exibição em master detail como um array de objects
 
     });
-  }
+  } */
 
   carregarPessoa(codigo: number) {
    this.pessoasService.buscarPorCodigo(codigo)
     .then(pessoa => {
       this.pessoa = pessoa
-
-      this.formulario.patchValue(pessoa); // Vai pegar o objeto pessoa jah existente do banco e xibir no tituloEdição
+      
+      // Vai exibir o estado e a cidade depois de ser salvo
+      this.estadoSelecionado = (this.pessoa.endereco.cidade) ? 
+        this.pessoa.endereco.cidade.estado.codigo : null;
+      if(this.estadoSelecionado) {
+        this.carregarCidades();
+      }
+        
+      // config de reative form - this.formulario.patchValue(pessoa); // Vai pegar o objeto pessoa jah existente do banco e xibir no tituloEdição
       this.atualizarTituloEdição();
 
-      const contatosFormArray = this.formulario.get('contatos') as FormArray;
+     /* const contatosFormArray = this.formulario.get('contatos') as FormArray;
       this.pessoa.contatos.forEach(() => {
         contatosFormArray.push(this.criarFormGroupContato());
       }); 
 
-      this.formulario.patchValue(this.pessoa); // vai pegar objeto pessoa com sua lista de contatos
+      this.formulario.patchValue(this.pessoa); */ // vai pegar objeto pessoa com sua lista de contatos
     })
     .catch(erro => this.errorHandler.handle(erro));
   }
 
-  salvar() {
+  salvar(form: any) {
 
     if(this.editando) {
-      this.atualizarPessoa();
+      this.atualizarPessoa(form);
     } else {
-      this.adicionarPessoa();
+      this.adicionarPessoa(form);
     }
   }
 
-  adicionarPessoa() {
+  adicionarPessoa(form: any) {
     
-    this.pessoasService.adicionar(this.formulario.value)
+    this.pessoasService.adicionar(this.pessoa) // substituindo this.formulario.value por this.pessoa
       .then(pessoaAdicionado => {
 
         this.toastyService.success("Pessoa adicionada com sucesso");
@@ -111,8 +140,8 @@ export class PessoaCadastroComponent implements OnInit {
       .catch(erro => this.errorHandler.handle(erro));
   }
 
-  novo() {
-    this.formulario.reset();
+  novo(form: any) {
+    form.reset(); // this.formulario
 
     setTimeout(function(){
       this.pessoa = new Pessoa();
@@ -122,12 +151,12 @@ export class PessoaCadastroComponent implements OnInit {
 
   }
 
-  atualizarPessoa() {
+  atualizarPessoa(form: any) {
     
-    this.pessoasService.atualizar(this.formulario.value)
+    this.pessoasService.atualizar(this.pessoa) // this.formulario.value
       .then(pessoa => {
-        //this.pessoa = pessoa;
-        this.formulario.patchValue(pessoa);
+        this.pessoa = pessoa;
+        //this.formulario.patchValue(pessoa);
 
         this.toastyService.success('Pessoa alterada com sucesso');
         this.atualizarTituloEdição();
@@ -136,7 +165,7 @@ export class PessoaCadastroComponent implements OnInit {
   }
 
   atualizarTituloEdição() {
-    this.title.setTitle('Edição de Pessoa: '+ this.formulario.get('nome').value);
+    this.title.setTitle('Edição de Pessoa: '+ this.pessoa.nome); // this.formulario.get('nome').value
   }
 
 

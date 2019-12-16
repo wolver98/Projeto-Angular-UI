@@ -25,6 +25,11 @@ export class LancamentoService {
   constructor(private httpClient: HttpClient) { 
     this.lancamentosURL = `${environment.apiUrl}/lancamentos`;
   }
+  
+  
+  urlUploadAnexo(): String {
+    return `${this.lancamentosURL}/anexo`;
+  }
 
   pesquisar(filtro: lancamentosFilter): Promise<any> {
     // usado para basic security const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
@@ -115,5 +120,6 @@ export class LancamentoService {
     
     }
   }
+
 
 }

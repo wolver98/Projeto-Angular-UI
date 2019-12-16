@@ -9,14 +9,13 @@ import { Component, OnInit } from '@angular/core';
 import { ToastyService } from 'ng2-toasty';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-lancamento-cadastro',
   templateUrl: './lancamento-cadastro.component.html',
   styleUrls: ['./lancamento-cadastro.component.css']
 })
 export class LancamentoCadastroComponent implements OnInit {
-  
+  // mizete bloco174 apt304
   tipos = [
     {label: 'Receita', value: 'RECEITA'},
     {label: 'Despesa', value: 'DESPESA'},
@@ -25,6 +24,7 @@ export class LancamentoCadastroComponent implements OnInit {
 
   categorias = [];
   pessoas = [];
+  uploadEmAndamento = false;
 
   //lancamento = new Lancamento();
   formulario: FormGroup;
@@ -54,6 +54,52 @@ export class LancamentoCadastroComponent implements OnInit {
     this.configurarFormulario();
     
   }
+
+  // Vai fazer o upload do arquivo ou seja vai anexar o arquivo como em um email
+  get urlUploadAnexo() {
+    return this.lancamentoService.urlUploadAnexo();
+  }
+  
+  // Metodo que vai exibir o progress spinner ao fazer o upload do arquivo
+  antesUploadAnexo(event): Boolean {
+    return this.uploadEmAndamento = true;
+  }
+
+  aoTerminarUploadAnexo(event) {
+    this.uploadEmAndamento = true;
+    const anexo = event.originalEvent.body;
+     
+    this.formulario.patchValue({
+      anexo: anexo.nome, // vem do pacote dto Anexo na api
+      urlAnexo: anexo.url
+    });
+
+    this.uploadEmAndamento = false;
+  }
+
+  erroUpload(event) {
+    this.toastyService.error('Erro ao tentar enviar anexo!');
+
+    this.uploadEmAndamento = false;
+  }
+  
+  removerAnexo() {
+    this.formulario.patchValue({
+      anexo: null,
+      urlAnexo: null
+    });
+  }
+
+  // Metodo que vai exibir somente o nome do arquivo retirando aquela qtde de numeros antes do _
+  get nomeAnexo() {
+    const nome = this.formulario.get('anexo').value;
+
+    if(nome) {
+      return nome.substring(nome.indexOf('_') + 1, nome.length);
+    }
+
+    return '';
+  } 
   
   // Metodo para criar um formulario reativo
   configurarFormulario() {
@@ -72,7 +118,9 @@ export class LancamentoCadastroComponent implements OnInit {
         codigo: [null, Validators.required],
         nome: []
       }),
-      observacao: []
+      observacao: [],
+      anexo: [],
+      urlAnexo: []
     });
   }
   

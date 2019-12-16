@@ -38,8 +38,8 @@
             <ng-template pTemplate="body" let-pessoa  >
                 <tr>
                     <td>{{pessoa.nome}}</td>
-                    <td>{{pessoa.endereco.cidade}}</td>
-                    <td class="col-acoes">{{pessoa.endereco.estado}}</td>
+                    <td>{{pessoa.endereco.cidade?.nome}}</td> <!-- O ? informa que não eh obrigatorio se caso o valor informado for nulo -->
+                    <td class="col-acoes">{{pessoa.endereco.cidade.estado?.nome}}</td>
                     <td class="col-acoes"> <a href="javascript:;" [pTooltip]="pessoa.ativo ? 'Desativar' : 'Ativar' "
                             tooltipPosition="top" (click)="atualizarStatus(pessoa)" >{{pessoa.ativo ? 'Ativo' : 'Inativo'}}</a> 
                     </td>

@@ -14,6 +14,9 @@ import { CalendarModule } from 'primeng/components/calendar/calendar';
 import { SelectButtonModule } from 'primeng/components/selectbutton/selectbutton';
 import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { FileUploadModule } from 'primeng/fileupload'
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 import { LancamentosRoutingModule } from './lancamentos-routing.module';
 
 /* Features Modules(Modulos de Funcionalidade) sao usados para separar components que tem
@@ -55,8 +58,9 @@ import { LancamentosRoutingModule } from './lancamentos-routing.module';
     CalendarModule,
     SelectButtonModule,
     DropdownModule,
-    CurrencyMaskModule
-    
+    CurrencyMaskModule,
+    FileUploadModule,
+    ProgressSpinnerModule
   
   ]
 })

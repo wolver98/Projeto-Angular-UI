@@ -86,8 +86,35 @@
                 <textarea pInputTextarea rows="3" formControlName="observacao" name="observacao" ></textarea>
             </div>
 
+            <div class="ui-g-6 ui-g-offset-6 ui-md-2 ui-md-offset-10 ui-fluid"
+                *ngIf="!formulario.get('anexo').value"> <!-- offset-10 a partir da posição 10 ele vai contar o ui-g-2 os 2 espaços e vai deixar alinhado a direita -->
+                          <!-- *ngIf="!formulario.get('anexo').value" não vai exibir o botao Anexar se tiver o link ou url anexo senão exibe o botao
+                               Fazendo o property bind do atributo url para escutar o get urlUpload.. do componente cadastro lancamento
+                               onBeforeUpload="$event" vai anexar o arquivo antes de enviar    
+                               (onUpload)="" Vai enviar o arquivo anexo e exibir o nome do anexo na tela
+                               *hidden="!uploadEmAndamento" Não vai aparecer a barra de progresso se nuam tiver arquivo para anexar -->
+                    <p-fileUpload name="anexo" mode="basic" auto="true" maxFileSize="100000000"
+                    chooseLabel="Anexar" accept="image/*,application/*"
+                       [url]="urlUploadAnexo"  (onBeforeUpload)="antesUploadAnexo($event)" 
+                       (onUpload)="aoTerminarUploadAnexo($event)"
+                       (onError)="erroUpload($event)"
+                        [hidden]="uploadEmAndamento"></p-fileUpload> 
+                
+                        <!-- hidden="!..." Ele não vai esconder a barrar de progresso quando tiver enviando um arquivo  -->
+                <p-progressSpinner [style]="{ width: '25px', height: '25px' }" 
+                    [hidden]="!uploadEmAndamento"></p-progressSpinner>            
+            </div>
+
+            <div class="ui-g-12" *ngIf="formulario.get('anexo').value" dir="rtl"> <!-- dir="rtl" right-to-left Vai aparecer o link a direita da tela  --> 
+                <button pButton type="button" class="ui-button-danger" (click)="removerAnexo()"
+                    icon="pi pi-trash" pTooltip="Remover anexo" tooltipPosition="top" style="margin-left: 5px;"></button>
+                
+                <a target="_blank" pTooltip="Baixar anexo" tooltipPosition="top"
+                    [href]="formulario.get('urlAnexo').value">{{ nomeAnexo }}</a> 
+            </div>
+
             <div class="ui-g-12">
-                <button pButton type="submit" [disabled]="!formulario.valid" label="Salvar"></button>
+                <button pButton type="submit" [disabled]="!formulario.valid || uploadEmAndamento" label="Salvar"></button>
                 <button pButton type="button" routerLink="/lancamentos/novo" label="Novo" 
                     (click)="novo()" style="margin-left: 5px;" class="ui-button-info"></button>
                 <a routerLink="/lancamentos" style="margin-left: 5px;">Voltar para pesquisa</a>

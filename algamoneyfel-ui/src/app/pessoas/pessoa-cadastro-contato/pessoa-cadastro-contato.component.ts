@@ -11,46 +11,50 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PessoaCadastroContatoComponent implements OnInit {
   
   contato: Contato;
-  pessoa = new Pessoa();
-
   @Input() contatos: Array<Contato>;
-  @Input() formulario: FormGroup;
-
   exibindoFormularioContato = false;
   contatoIndex: number;
-  isEditando = false; // Operador de controle para inserção ou alteração de contatos da pessoa
+  
+  // para o reactive form @Input() pessoa: Pessoa;
+  // para o reactive form  @Input() formulario: FormGroup;
+  // para o reactive form isEditando = false; // Operador de controle para inserção ou alteração de contatos da pessoa
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { } // formBuilder não esta sendo usando 
 
   ngOnInit() {
   }
   
-
+  
+  get editando() {
+    return this.contato && this.contato.codigo;
+  }
+  
+ /* Usado para o formulario reativo 
+ // Vai retornar os dados do novo contato ao colocar no metodo confirmarContato()
   criarFormGroupContato(): FormGroup {
     return this.formBuilder.group({
       codigo: [],
       nome: [null, Validators.required],
       email: [null, Validators.required],
       telefone: [null, Validators.required]
-    });
-  }
+    }); 
+  } */ 
 
   // Vai exibir o panel e preparar para inserção do novo contato ao objeto pessoa
   prepararNovoContato() {
     this.exibindoFormularioContato = true;
     
-    this.contatos = new Array<Contato>();
     this.contato = new Contato();
-    this.contatoIndex = this.contatos.length; // pegando indice do novo contato
-    this.isEditando = false;
+    this.contatoIndex = this.contatos.length; // pegando indice do novo contato - this.pessoa.contatos.length
+    //this.isEditando = false;
   }
 
   prepararEdicaoContato(contato: Contato, index: number) {
     this.contato = this.clonarContato(contato) // Criar uma nova isntancia a partir de um contato existente
     this.exibindoFormularioContato = true;
-
     this.contatoIndex = index;
-    this.isEditando = true
+    
+    //this.isEditando = true
   }
 
   // Metodo que vai fazer um copia do novo contato para não perde-lo quando 
@@ -60,16 +64,17 @@ export class PessoaCadastroContatoComponent implements OnInit {
       contato.email, contato.telefone);
   }
 
-  confirmarContato(form: FormControl) {
+  confirmarContato(form: any) {
    
     this.contatos[this.contatoIndex] = this.clonarContato(this.contato); // vai pegar o contato clonado e guardo-lo no index em caso de for alterar o contato 
-   
+    
+    /* formulario reativo
     const contatosFormArray = this.formulario.get('contatos') as FormArray;
     if(!this.isEditando) {
       contatosFormArray.push(this.criarFormGroupContato()); // Aqui vai add na lista de contatos da pessoa
     }
-    this.formulario.patchValue(this.contato); // vai exibir lista(array) de contatos
-     
+    this.formulario.patchValue(this.pessoa); // vai exibir lista(array) de contatos
+    */
     this.exibindoFormularioContato = false;
     form.reset();
       
@@ -77,10 +82,10 @@ export class PessoaCadastroContatoComponent implements OnInit {
 
   removerContato(index: number) {
   
-  const contatosFormArray = this.formulario.get('contatos') as FormArray;
-  contatosFormArray.removeAt(index);
-  //this.pessoa.contatos.splice(index, 1);
-  
+    this.contatos.splice(index, 1);
+  // removendo com reative form const contatosFormArray = this.formulario.get('contatos') as FormArray;
+  //contatosFormArray.removeAt(index);
+ 
   /* Outra forma de remoção..  
     this.contatosFormArray.pop();
     this.formulario.patchValue(this.pessoa);

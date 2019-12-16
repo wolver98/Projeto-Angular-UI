@@ -6,7 +6,7 @@
     </div>
 
     <div class="ui-g-12">
-        <p-table [value]="formulario.value.contatos" [responsive]="true"> <!-- Substituindo formulario.value.contatos por contatos na propiedade [value] -->
+        <p-table [value]="contatos" [responsive]="true"> <!-- Substituindo formulario.value.contatos por contatos na propiedade [value] -->
             <ng-template pTemplate="header">
                 <tr>
                     <th class="col-acoes-contato-nome">Nome</th>
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<p-dialog header="Novo Contato" [(visible)]="exibindoFormularioContato"
+<p-dialog [header]="editando ? 'Edição de Contato' : 'Novo Contato' " [(visible)]="exibindoFormularioContato"
     modal="modal" *ngIf="contato"> <!-- Com modal vai exibir com enfase a tela de dialog -->
 
     <form #formContato="ngForm" (ngSubmit)="confirmarContato(formContato)">
