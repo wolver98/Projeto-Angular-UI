@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
-import { environment } from 'src/environments/environment';
+//import { environment } from 'src/environments/environment'; // Para Dev
+import { environment } from 'src/environments/environment.prod';
 
 export class lancamentosFilter {
   descricao: string;
@@ -23,7 +24,7 @@ export class LancamentoService {
   lancamentosURL: string
 
   constructor(private httpClient: HttpClient) { 
-    this.lancamentosURL = `${environment.apiUrl}/lancamentos`;
+    this.lancamentosURL = `${environment.ApiUrl}/lancamentos`;
   }
   
   

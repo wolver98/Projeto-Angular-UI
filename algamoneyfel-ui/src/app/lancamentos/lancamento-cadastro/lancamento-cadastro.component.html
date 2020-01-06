@@ -50,7 +50,7 @@
 
                 <label>Valor</label>
                 <input pInputText type="text" formControlName="valor" placeholder="0,00" currencyMask name="valor" 
-                    [options]="{prefix: '', thousands: '.', decimal: ',', allowNegative: false }"  >
+                    [options]="{prefix: 'R$ ', thousands: '.', decimal: ',', allowNegative: false }"  >
             
                 <app-message [control]="formulario.get('valor')" error="required"
                     text="Informe um valor">

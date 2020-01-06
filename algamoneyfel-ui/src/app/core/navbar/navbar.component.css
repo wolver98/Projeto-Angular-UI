@@ -46,8 +46,36 @@
 
 .navbar-menu-item a:hover {
     color: #fff;
+
 }
 
 .navbar-menu-item.ativo { /* .ativo cria uma outra classe dentro da classe */
     background-color: #494541;
+    
 }
+
+ /* // Estilizando o submenu para relatorios \\ */
+
+.navbar-submenu {
+    display: none;
+    
+}
+
+/* Aqui Vai abrir o submenu ao tocar em menu relatorios
+   li descendente de menu ul e a classe navbar-submenu e filho direto(>)
+   de li */
+ul li:hover > .navbar-submenu {
+    display: block;
+  
+}
+
+.navbar-submenu-item  {
+   
+   padding: 5px;
+   list-style: none;
+} 
+
+
+
+
+

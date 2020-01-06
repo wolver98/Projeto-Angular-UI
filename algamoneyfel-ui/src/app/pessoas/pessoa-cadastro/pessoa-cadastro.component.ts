@@ -7,6 +7,8 @@ import { ToastyService } from 'ng2-toasty';
 import { Pessoa } from 'src/app/core/model';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { MessageService } from 'primeng/components/common/messageservice';
+
 @Component({
   selector: 'app-pessoa-cadastro',
   templateUrl: './pessoa-cadastro.component.html',
@@ -23,7 +25,7 @@ export class PessoaCadastroComponent implements OnInit {
   
   constructor(private pessoasService: PessoasService,
               private errorHandler: ErrorHandlerService,
-              private toastyService: ToastyService,
+              private messageService: MessageService,
               private route: ActivatedRoute,
               private router: Router,
               private title: Title,
@@ -133,7 +135,7 @@ export class PessoaCadastroComponent implements OnInit {
     this.pessoasService.adicionar(this.pessoa) // substituindo this.formulario.value por this.pessoa
       .then(pessoaAdicionado => {
 
-        this.toastyService.success("Pessoa adicionada com sucesso");
+        this.messageService.add({ severity: 'success', detail: 'Pessoa adicionada com sucesso' });
         
         this.router.navigate(['/pessoas', pessoaAdicionado.codigo]);
       })
@@ -158,7 +160,7 @@ export class PessoaCadastroComponent implements OnInit {
         this.pessoa = pessoa;
         //this.formulario.patchValue(pessoa);
 
-        this.toastyService.success('Pessoa alterada com sucesso');
+        this.messageService.add({ severity: 'success', detail: 'Pessoa alterada com sucesso' });
         this.atualizarTituloEdição();
       })
       .catch(erro => this.errorHandler.handle(erro));

@@ -6,8 +6,10 @@ import { LancamentoService } from './../lancamento.service';
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { CategoriaService } from './../../categorias/categoria.service';
 import { Component, OnInit } from '@angular/core';
-import { ToastyService } from 'ng2-toasty';
+import { ToastyService } from 'ng2-toasty'; // substituindo o toastyService por MessageService do growl
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -15,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./lancamento-cadastro.component.css']
 })
 export class LancamentoCadastroComponent implements OnInit {
-  // mizete bloco174 apt304
+  
   tipos = [
     {label: 'Receita', value: 'RECEITA'},
     {label: 'Despesa', value: 'DESPESA'},
@@ -33,7 +35,7 @@ export class LancamentoCadastroComponent implements OnInit {
   constructor(private categoriaService: CategoriaService,
               private pessoasService: PessoasService,
               private lancamentoService: LancamentoService,
-              private toastyService: ToastyService,
+              private messageService: MessageService,
               private errorHandler: ErrorHandlerService,
               private route: ActivatedRoute,
               private router: Router,
@@ -78,7 +80,7 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   erroUpload(event) {
-    this.toastyService.error('Erro ao tentar enviar anexo!');
+    this.messageService.add({ severity: 'error', detail: 'Erro ao tentar enviar anexo!'});
 
     this.uploadEmAndamento = false;
   }
@@ -192,7 +194,7 @@ export class LancamentoCadastroComponent implements OnInit {
     
     this.lancamentoService.adicionar(this.formulario.value) // Subistiuindo o this.lancamneto por this.formulario
     .then(lancamentoAdicionado => {
-      this.toastyService.success('Lançamento adicionado com sucesso');
+      this.messageService.add({ severity: 'success', detail: 'Lançamento adicionado com sucesso' });
 
       //form.reset();
       //this.lancamento = new Lancamento();
@@ -207,7 +209,7 @@ export class LancamentoCadastroComponent implements OnInit {
     .then(lancamento => {
       this.formulario.patchValue(lancamento);
 
-      this.toastyService.success('Lançamento alterado com sucesso');
+      this.messageService.add({ severity: 'success', detail: 'Lançamento alterado com sucesso' });
       this.atualizarTituloEdicao();
     })
     .catch(erro => this.errorHandler.handle(erro));

@@ -14,7 +14,12 @@
         <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/dashboard" >Dashboard</a> </li>
         <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/lancamentos" >Lançamentos</a> </li>
         <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_PESSOA')"> <a routerLink="/pessoas" >Pessoas</a> </li>
-        <li class="navbar-menu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/relatorios/lancamentos" >Relatórios</a> </li>
+        <li class="navbar-menu-item"  routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a href="#" > Relatórios</a> <!-- routerLink="/relatorios/lancamentos" -->
+            <ul class="navbar-submenu">
+                <li class="navbar-submenu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/relatorios/lancamentos"> Por Pessoas </a> </li>
+                <li class="navbar-submenu-item" routerLinkActive="ativo" *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')"> <a routerLink="/relatorios/lancamentos-por-tipo"> Por Tipo </a> </li> 
+            </ul> 
+        </li>
         <li class="navbar-menu-item"> <a href="javascript:;" (click)="logout()" >Logout</a> </li>
     </ul>
 

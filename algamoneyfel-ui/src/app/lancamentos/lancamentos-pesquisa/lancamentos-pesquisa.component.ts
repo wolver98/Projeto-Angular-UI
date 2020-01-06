@@ -6,6 +6,7 @@ import { ErrorHandlerService } from './../../core/error-handler.service';
 import { AuthService } from './../../seguranca/auth.service';
 
 import { Table } from 'primeng/table';
+import { MessageService } from 'primeng/components/common/messageservice';
 import { ToastyService } from 'ng2-toasty';
 import { Title } from '@angular/platform-browser';
 
@@ -22,7 +23,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   @ViewChild('tabela', {static: true}) grid: Table;
 
   constructor(private lancamentoService: LancamentoService,
-              private toastyService: ToastyService,
+              private messageService: MessageService,
               private confirmtionService: ConfirmationService,
               private errorHandler: ErrorHandlerService,
               private title: Title,
@@ -73,7 +74,7 @@ export class LancamentosPesquisaComponent implements OnInit {
       .then(() => {
         this.grid.reset();
 
-        this.toastyService.success('Lançamento excluído com sucesso');
+        this.messageService.add({ severity: 'success', detail: 'Lançamento excluído com sucesso' });
       })
       .catch(erro => this.errorHandler.handle(erro));
   }

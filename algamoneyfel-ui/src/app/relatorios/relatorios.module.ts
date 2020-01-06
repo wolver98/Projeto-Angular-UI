@@ -7,9 +7,12 @@ import { CalendarModule } from 'primeng/components/calendar/calendar';
 import { RelatoriosRoutingModule } from './relatorios-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { RelatorioLancamentosComponent } from './relatorio-lancamentos/relatorio-lancamentos.component';
+import { RelatoriosLancamentosTipoComponent } from './relatorios-lancamentos-tipo/relatorios-lancamentos-tipo.component';
 
 @NgModule({
-  declarations: [RelatorioLancamentosComponent],
+  declarations: [RelatorioLancamentosComponent,
+    RelatoriosLancamentosTipoComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

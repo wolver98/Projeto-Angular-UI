@@ -4,9 +4,11 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { ToastyModule } from 'ng2-toasty';
+// Removendo ToastyModule de 'ng2-toasty'
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/components/common/api';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { GrowlModule } from 'primeng/growl';
 
 import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -27,7 +29,8 @@ registerLocaleData(localePt);
   declarations: [ NavbarComponent, PaginaNaoEncontradaComponent, NaoAutorizadoComponent ],
   exports: [ 
     NavbarComponent,
-    ToastyModule,
+    //ToastyModule,
+    GrowlModule,
     ConfirmDialogModule  
   ],
   
@@ -36,6 +39,7 @@ registerLocaleData(localePt);
     LancamentoService, 
     PessoasService,
     ConfirmationService,
+    MessageService,
     CategoriaService,
     AuthService,
     DashboardService,
@@ -51,7 +55,7 @@ registerLocaleData(localePt);
     CommonModule,
     RouterModule,
 
-    ToastyModule.forRoot(),
+    GrowlModule,// substituindo o toastymodule.for....
     ConfirmDialogModule
   ]
 })

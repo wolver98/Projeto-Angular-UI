@@ -1,12 +1,12 @@
+import { RelatoriosService } from './../relatorios.service';
 import { Component, OnInit } from '@angular/core';
-import { RelatoriosService } from '../relatorios.service';
 
 @Component({
-  selector: 'app-relatorio-lancamentos',
-  templateUrl: './relatorio-lancamentos.component.html',
-  styleUrls: ['./relatorio-lancamentos.component.css']
+  selector: 'app-relatorios-lancamentos-tipo',
+  templateUrl: './relatorios-lancamentos-tipo.component.html',
+  styleUrls: ['./relatorios-lancamentos-tipo.component.css']
 })
-export class RelatorioLancamentosComponent implements OnInit {
+export class RelatoriosLancamentosTipoComponent implements OnInit {
   
   periodoInicio: Date;
   periodoFim: Date;
@@ -19,7 +19,7 @@ export class RelatorioLancamentosComponent implements OnInit {
   gerar() {
     //console.log(this.periodoInicio); para testes
     //console.log(this.periodoFim); para testes
-    this.relatoriosService.relatorioLancamentosPorPessoa(this.periodoInicio, this.periodoFim)
+    this.relatoriosService.relatorioLancamentosPorTipo(this.periodoInicio, this.periodoFim)
       .then(relatorio => {
         const url = window.URL.createObjectURL(relatorio);
 

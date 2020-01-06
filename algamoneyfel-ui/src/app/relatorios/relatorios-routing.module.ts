@@ -2,12 +2,20 @@ import { AuthGuard } from './../seguranca/auth.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RelatorioLancamentosComponent } from './relatorio-lancamentos/relatorio-lancamentos.component';
+import { RelatoriosLancamentosTipoComponent } from './relatorios-lancamentos-tipo/relatorios-lancamentos-tipo.component';
 
 
 const routes: Routes = [
   {
     path: 'lancamentos',
     component: RelatorioLancamentosComponent,
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] }
+  },
+
+  {
+    path: 'lancamentos-por-tipo',
+    component: RelatoriosLancamentosTipoComponent,
     canActivate: [AuthGuard],
     data: { roles: ['ROLE_PESQUISAR_LANCAMENTO'] }
   }

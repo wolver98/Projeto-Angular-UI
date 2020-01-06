@@ -18,6 +18,10 @@ a:hover, a:focus {
     text-decoration: underline;
 }
 
+/*a, button {
+    margin-right: .25em;
+} */
+
 .ui-dropdown-filter-container {
     width: 100%;
 }
@@ -28,6 +32,20 @@ a:hover, a:focus {
         width: 1170px;
         margin: 0 auto; 
     }
+
+    .table-action thead {
+        display: none;
+    }
+    .table-action tr {
+        border-bottom: 1px solid #dddddd;
+    }
+    .table-action td {
+        border: 0;
+    }
+    .table-action td:not(:first-child) {
+        display: block;
+    }
+    
 }
 
 .col-data-header {
@@ -69,3 +87,24 @@ a:hover, a:focus {
     width: 220px;
     text-align: center;
 }
+
+/*
+   \\ Configuração da tabela no modo responsivo //
+*/
+.table-action thead {
+    display: none;
+}
+
+.table-action tr {
+    border-bottom: 1px solid #dddddd;
+  }
+
+.table-action td {
+    border: 0;
+}
+
+.table-action td:not(:first-child) {
+    display: block;
+  }
+
+

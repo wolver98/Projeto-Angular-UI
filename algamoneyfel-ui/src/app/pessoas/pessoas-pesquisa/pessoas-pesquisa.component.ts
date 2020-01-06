@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
 import { Table } from 'primeng/table';
-import { ToastyService } from 'ng2-toasty';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 import { PessoasFilter, PessoasService } from '../pessoas.service';
 import { ErrorHandlerService } from './../../core/error-handler.service';
@@ -23,7 +23,7 @@ export class PessoasPesquisaComponent implements OnInit {
     @ViewChild('tabela', { static: true }) grid: Table;
 
     constructor(private pessoasService: PessoasService,
-                private toastService: ToastyService,
+                private messageService: MessageService,
                 private confirmationService: ConfirmationService,
                 private errorHandler: ErrorHandlerService,
                 private title: Title,
@@ -69,7 +69,7 @@ export class PessoasPesquisaComponent implements OnInit {
        .then(() => {
             this.grid.reset();
             
-            this.toastService.success('Pessoa excluída com sucesso.');
+            this.messageService.add({ severity: 'success', detail: 'Pessoa excluída com sucesso.' });
        })
        .catch(erro => this.errorHandler.handle(erro));
    }
@@ -83,7 +83,7 @@ export class PessoasPesquisaComponent implements OnInit {
 
         pessoa.ativo = novoStatus;
         
-        this.toastService.success(`Pessoa ${acao} com sucesso!`);
+        this.messageService.add({ severity: 'success', detail: `Pessoa ${acao} com sucesso!` });
      })
      .catch(erro => this.errorHandler.handle(erro));
     }

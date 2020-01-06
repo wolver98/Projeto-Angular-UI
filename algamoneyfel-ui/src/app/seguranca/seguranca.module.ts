@@ -1,3 +1,4 @@
+
 import { AuthGuard } from './auth.guard';
 import { MoneyHttpInterceptor } from './money-http-interceptor';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
@@ -27,8 +28,8 @@ export function tokenGetter(): string {
     JwtModule.forRoot({ // Configuração para obter o access_token
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:8080'], // Requisições que serão interceptadas e add ao token Antes: 'localhost:8080' Em produção: 'algamoneyfel-api.herokuapp.com'
-        blacklistedRoutes: ['http://localhost:8080/oauth/token'] // nao serão interceptadas... Antes: 'http://localhost:8080/oauth/token' Em produção: https://algamoneyfel-api.herokuapp.com/oauth/token 
+        whitelistedDomains: ['algamoneyfel-api.herokuapp.com'], // Requisições que serão interceptadas e add ao token Antes: 'localhost:8080' Em produção: 'algamoneyfel-api.herokuapp.com'
+        blacklistedRoutes: ['https://algamoneyfel-api.herokuapp.com/oauth/token'] // nao serão interceptadas... Antes: 'http://localhost:8080/oauth/token' Em produção: https://algamoneyfel-api.herokuapp.com/oauth/token 
       }
     }),
     

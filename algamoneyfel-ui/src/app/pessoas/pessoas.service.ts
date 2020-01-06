@@ -1,4 +1,5 @@
-import { environment } from 'src/environments/environment';
+//import { environment } from 'src/environments/environment'; //para Dev
+import { environment } from 'src/environments/environment.prod';
 import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -22,9 +23,9 @@ export class PessoasService {
   estadosURL: string;
 
   constructor(private httpClient: HttpClient) {
-    this.pessoasURL = `${environment.apiUrl}/pessoas`;
-    this.cidadesURL = `${environment.apiUrl}/cidades`;
-    this.estadosURL = `${environment.apiUrl}/estados`;
+    this.pessoasURL = `${environment.ApiUrl}/pessoas`;
+    this.cidadesURL = `${environment.ApiUrl}/cidades`;
+    this.estadosURL = `${environment.ApiUrl}/estados`;
    }
 
   pesquisar(filtro: PessoasFilter): Promise<any> {
